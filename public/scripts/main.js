@@ -5,6 +5,24 @@ var Comment = React.createClass({
     return { __html: rawMarkup };
   },
 
+  componentDidMount: function() {
+
+    var time="0ms"
+    if(this.props.type == "question"){
+      time="2000ms"
+    }
+    // Get the components DOM node
+    var elem = ReactDOM.findDOMNode(this);
+    // Set the opacity of the element to 0
+    elem.style.opacity = 0;
+    window.requestAnimationFrame(function() {
+        // Now set a transition on the opacity
+        elem.style.transition = "opacity "+time;
+        // and set the opacity to 1
+        elem.style.opacity = 1;
+    });
+},
+
   render: function() {
     var sideColor;
     if(this.props.type == "question"){
@@ -85,7 +103,17 @@ var CommentBox = React.createClass({
 
 var CommentList = React.createClass({
 
+  componentWillUpdate: function() {
+  var node = ReactDOM.findDOMNode(this);
+  this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+},
 
+componentDidUpdate: function() {
+  if (this.shouldScrollBottom) {
+    var node = ReactDOM.findDOMNode(this);
+    node.scrollTop = node.scrollHeight
+  }
+},
 
   render: function() {
     var commentNodes = this.props.data.map(function(comment) {
@@ -98,7 +126,7 @@ var CommentList = React.createClass({
     var divStyle = {
       minHeight: '400px',
       maxHeight: '400px',
-      overflowY: "scroll"
+      overflowY: "auto"
     };
     return (
         <div className="panel-body" style={divStyle}>
@@ -124,12 +152,16 @@ var CommentForm = React.createClass({
     this.props.onCommentSubmit({text: text});
     this.setState({text: ''});
   },
+  componentDidMount: function(){
+    this.refs.messagearea.focus();
+  },
   render: function() {
     return (
       <form className="input-group" onSubmit={this.handleSubmit}>
         <input
           type="text"
           className="form-control"
+          ref="messagearea"
           placeholder="Say something..."
           value={this.state.text}
           onChange={this.handleTextChange}
