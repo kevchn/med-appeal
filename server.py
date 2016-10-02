@@ -18,6 +18,7 @@ from flask import Flask, Response, request, render_template
 app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 
+result_string = "Error"
 reset = True
 count = 0
 questions_basic = [ # 9 questions, 0-8 indices
@@ -30,6 +31,7 @@ questions_basic = [ # 9 questions, 0-8 indices
 "What's the name of your insurance provider?", # 6
 "What's your policy number?", # 7
 "What illness are you seeking treatment for?", # 8
+"Why was your procedure denied?" #9
 ]
 answers_basic = []
 
@@ -77,10 +79,12 @@ def comments_handler():
 
     global reset
     global count
+    global result_string
     global questions_basic, answers_basic, questions_lack_of_payment, \
     answers_lack_of_payment, questions_unnecessary, answers_unnecessary, \
     questions_out_of_network, answers_out_of_network, questions_in_home, \
-    answers_in_home, questions_experimental, answers_experimental
+    answers_in_home, questions_experimental, answers_experimental, \
+    questions_generic, answers_generic
 
     if(reset):
         one_off_time = str(int(time.time() * 1000))
@@ -99,9 +103,9 @@ def comments_handler():
         reason = ""
         new_answer = request.form.to_dict()
         # new_answer['type'] = "answer"
-        answers_basic.append(new_answer['text'])
 
-        if(count < 9):
+        if(count < 10):
+            answers_basic.append(new_answer['text'])
             history.append(new_answer)
             new_question = {'id': str(int(time.time() * 1000)), 'text': questions_basic[count], 'type': "question"}
             history.append(new_question)
@@ -112,66 +116,115 @@ def comments_handler():
         if(count == 0):
             del answers_basic[0]
 
-        if(count == 9):
-            history.append(new_answer)
+        if(count == 10):
             reason = new_answer['text']
+            history.append(new_answer)
 
         result_string = ""
         today = date.today().isoformat()
 
-        if(count >= 9):
-            history.append(new_answer)
+        if(count >= 10):
             # define the function blocks
             if "payment" in reason:
-                if(count < 11):
-                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_lack_of_payment[count-9], 'type': "question"}
+                if(count == 10):
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_lack_of_payment[count-10], 'type': "question"}
                     history.append(new_question)
+                elif(count < 12):
+                    answers_lack_of_payment.append(new_answer['text'])
+                    history.append(new_answer)
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_lack_of_payment[count-10], 'type': "question"}
+                    history.append(new_question)
+                elif(count == 12):
                     answers_lack_of_payment.append(new_answer['text'])
             elif "unnecessary" in reason:
-                if(count < 14):
-                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_unnecessary[count-9], 'type': "question"}
+                if(count == 10):
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_unnecessary[count-10], 'type': "question"}
                     history.append(new_question)
+                elif(count < 15):
+                    answers_unnecessary.append(new_answer['text'])
+                    history.append(new_answer)
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_unnecessary[count-10], 'type': "question"}
+                    history.append(new_question)
+                elif(count == 15):
                     answers_unnecessary.append(new_answer['text'])
             elif "network" in reason:  # outside network covered by doctors
-                if(count < 12):
-                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_out_of_network[count-9], 'type': "question"}
+                if(count == 10):
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_out_of_network[count-10], 'type': "question"}
                     history.append(new_question)
+                elif(count < 13):
+                    answers_out_of_network.append(new_answer['text'])
+                    history.append(new_answer)
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_out_of_network[count-10], 'type': "question"}
+                    history.append(new_question)
+                elif(count == 13):
                     answers_out_of_network.append(new_answer['text'])
             elif "in home" in reason or "nursing" in reason:  #
-                if(count < 13):
-                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_in_home[count-9], 'type': "question"}
+                if(count == 10):
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_in_home[count-10], 'type': "question"}
                     history.append(new_question)
+                elif(count < 14):
+                    answers_in_home.append(new_answer['text'])
+                    history.append(new_answer)
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_in_home[count-10], 'type': "question"}
+                    history.append(new_question)
+                elif(count == 14):
                     answers_in_home.append(new_answer['text'])
             elif "experimental" in reason:
-                if(count < 11):
-                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_experimental[count-9], 'type': "question"}
+                if(count == 10):
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_experimental[count-10], 'type': "question"}
                     history.append(new_question)
+                elif(count < 12):
                     answers_experimental.append(new_answer['text'])
-            else:
-                if(count < 11):
-                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_generic[count-9], 'type': "question"}
+                    history.append(new_answer)
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_experimental[count-10], 'type': "question"}
                     history.append(new_question)
-                    answers_generic.append(new_answer['text'])
-                else:
-                    print("\nSIZE" + str(len(answers_generic)))
-                    print(answers_generic[1]) # ERROR
-                    print(answers_basic[7])
-                    print(answers_basic[8])
-                    result_string = today + "\n\n\
-" + answers_basic[0] + "\n\
-" + answers_basic[1] + "\n\
-" + answers_basic[6] + "\n\
-" + answers_basic[7] + "\n\n\
-Dear " + answers_basic[3] + ",\n\n\
-Please accept this letter as my appeal to " + answers_basic[6] + "'s' decision to deny coverage for " + answers_generic[0] + ". It is my understanding based that this procedure has been denied because: \n\
-" + answers_generic[1] + " \n\
-As you know, I have been diagnosed with " + answers_basic[8] + ". Currently " + answers_basic[3] + " believes that I will significantly benefit from undergoing " + answers_generic[0] +". Please see the enclosed letter from " + answers_basic[3] + " for more details. \n\
-Based on this information, I asking that you reconsider your previous decision and allow coverage for the desired " + answers_generic[0] + ". [The treatment is scheduled to begin on " + today + ".] Should you require additional information, please do not hesitate to contact me at " + answers_basic[2] + ".\nI look forward to hearing from you in the near future. \n\n\
-Sincerely, \n\
-" + answers_basic[0] + " \n\
+                elif(count == 12):
+                    answers_experimental.append(new_answer['text'])
+                    result_string = today + "<br> <br> \
+" + answers_basic[0] + "<br> \
+" + answers_basic[1] + "<br> \
+" + answers_basic[6] + "<br> \
+" + answers_basic[7] + "<br> <br>\
+Dear " + answers_basic[3] + ",<br> <br>\
+Please accept this letter as my appeal to " + answers_basic[6] + "'s decision to deny coverage for " + answers_generic[0] + ". The reason for the denial was due to the request of a new experimental treatment. Appealing this decision is a right guaranteed by the Patient Self-Determination Act.<br> \
+" + answers_generic[1] + " <br> \
+Upon receiving the explanation of benefits statement, I was notified by "+answers_basic[6] +" that the plan was denied it because proposed treatment was experimental. However,  my doctor, " +answers_basic[3]+ ", assured me the "+answers_generic[0]+" is a [safer/less expensive/previously authorized/lone treatment]. <br>"\
++"Please review this appeal and let me know if you need anything else to consider this request. I look forward to hearing from you directly as soon as possible. <br><br>" + \
+"Sincerely, <br> " \
+ + answers_basic[0] + " <br> \
 " + answers_basic[2] + "."
-                    print("\n" + result_string)
-                    return render_template('/templates/results.html')
+                    history.append({
+                    "text": "[Click here for your automatically generated report!](/results)",
+                    "type": "question"
+                })
+            else:
+                if(count == 10):
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_generic[count-10], 'type': "question"}
+                    history.append(new_question)
+                elif(count < 12):
+                    answers_generic.append(new_answer['text'])
+                    history.append(new_answer)
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_generic[count-10], 'type': "question"}
+                    history.append(new_question)
+                elif(count == 12):
+                    answers_generic.append(new_answer['text'])
+                    result_string = today + "<p> \
+" + answers_basic[0] + "<br> \
+" + answers_basic[1] + "<br> \
+" + answers_basic[6] + "<br> \
+" + answers_basic[7] + "<br><br> \
+Dear " + answers_basic[6] + ",<br><br> \
+Please accept this letter as my appeal to " + answers_basic[6] + "'s' decision to deny coverage for " + answers_generic[0] + ". It is my understanding that this procedure has been denied because: <br> \
+" +  answers_generic[1] + " <br> \
+As you know, I have been diagnosed with " + answers_basic[8] + ". Currently " + answers_basic[3] + " believes that I will significantly benefit from undergoing " + answers_generic[0] +". Please see the enclosed letter from " + answers_basic[3] + " for more details. <br> \
+Based on this information, I asking that you reconsider your previous decision and allow coverage for the desired " + answers_generic[0] + ". [The treatment is scheduled to begin on " + today + ".] Should you require additional information, please do not hesitate to contact me at " + answers_basic[2] + ".\nI look forward to hearing from you in the near future. <br><br> \
+Sincerely, <br> \
+" + answers_basic[0] + " <br> \
+" + answers_basic[2] + "</p>"
+                    history.append({
+                    "text": "[Click here for your automatically generated report!](/results)",
+                    "type": "question"
+                })
 
         count += 1
 
@@ -186,6 +239,10 @@ Sincerely, \n\
             'Access-Control-Allow-Origin': '*'
         }
     )
+
+@app.route('/results')
+def index():
+    return render_template('results.html', results = result_string)
 
 if __name__ == '__main__':
      app.debug = True
