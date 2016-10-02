@@ -15,7 +15,20 @@ from flask import Flask, Response, request
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
-
+count = 0
+questions_basic = []
+answers_basic = []
+questions_lack_of_payment = []
+answers_lack_of_payment = []
+questions_unnecessary = []
+answers_unnecessary = []
+questions_out_of_network = []
+answers_out_of_network = []
+questions_in_home = []
+answers_in_home = []
+questions_experimental = []
+answers_experimental = []
+reason = ""
 
 @app.route('/api/comments', methods=['GET', 'POST'])
 def comments_handler():
