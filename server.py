@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 # This file provided by Facebook is for non-commercial testing and evaluation
 # purposes only. Facebook reserves all rights not expressly granted.
 #
@@ -171,7 +171,7 @@ Sincerely, \n\
 " + answers_basic[0] + " \n\
 " + answers_basic[2] + "."
                     print("\n" + result_string)
-                    return render_template('results.html')
+                    return render_template('/templates/results.html')
 
         count += 1
 
