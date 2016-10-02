@@ -193,7 +193,6 @@ Upon receiving the explanation of benefits statement, I was notified by "+answer
 "Sincerely, <br> " \
  + answers_basic[0] + " <br> \
 " + answers_basic[2] + "."
-                    print("\n" + result_string)
                     history.append({
                     "text": "[Click here for your automatically generated report!](/results)",
                     "type": "question"
@@ -222,7 +221,6 @@ Based on this information, I asking that you reconsider your previous decision a
 Sincerely, <br> \
 " + answers_basic[0] + " <br> \
 " + answers_basic[2] + "</p>"
-                    print("\n" + result_string)
                     history.append({
                     "text": "[Click here for your automatically generated report!](/results)",
                     "type": "question"
