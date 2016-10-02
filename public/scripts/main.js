@@ -37,6 +37,7 @@ var Comment = React.createClass({
       minHeight: '5px',
       marginBottom: '15px',
       backgroundColor: sideColor,
+      fontSize: '20px'
     };
     return (
       <div className={className} style={wellStyle} dangerouslySetInnerHTML={this.rawMarkup()}>
