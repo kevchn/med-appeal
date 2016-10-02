@@ -24,11 +24,11 @@ var Comment = React.createClass({
 },
 
   render: function() {
-    var sideColor;
+    var sideColor = '#ffffff';
+    var className = 'well';
     if(this.props.type == "question"){
       sideColor = '#d5eef6';
-    } else{
-      sideColor = '#ffffff';
+      className = 'well';
     }
     var wellStyle = {
       width: '100%',
@@ -39,7 +39,7 @@ var Comment = React.createClass({
       backgroundColor: sideColor,
     };
     return (
-      <div className="well" style={wellStyle} dangerouslySetInnerHTML={this.rawMarkup()}>
+      <div className={className} style={wellStyle} dangerouslySetInnerHTML={this.rawMarkup()}>
       </div>
     );
   }
@@ -89,10 +89,12 @@ var CommentBox = React.createClass({
     setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render: function() {
+    var panelStyle = {
+      // position: "fixed"
+    }
     return (
       <div className="container">
-        <h1>Chat</h1>
-        <div className="panel panel-default">
+        <div className="panel panel-default" style={panelStyle}>
           <CommentList data={this.state.data} />
         </div>
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
@@ -124,6 +126,8 @@ componentDidUpdate: function() {
       );
     });
     var divStyle = {
+      // minHeight: '80%',
+      // maxHeight: '80%',
       minHeight: '400px',
       maxHeight: '400px',
       overflowY: "auto"
