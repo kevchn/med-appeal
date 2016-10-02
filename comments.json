@@ -1,1 +1,118 @@
-[{                    "text": "Welcome to MedAppeal, the machine-learning AI that helps you write medical insurance appeal letters quickly and simply!",                    "type": "question"                }]
+[
+    {
+        "text": "Welcome to MedAppeal, the machine-learning AI that helps you write medical insurance appeal letters quickly and simply!",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424213141"
+    },
+    {
+        "text": "What's your name?",
+        "id": "1475424213147",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424213735"
+    },
+    {
+        "text": "And what's your address?",
+        "id": "1475424213741",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424214251"
+    },
+    {
+        "text": "What's your phone number?",
+        "id": "1475424214255",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424215093"
+    },
+    {
+        "text": "What's your physician's name?",
+        "id": "1475424215100",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424216184"
+    },
+    {
+        "text": "What's the address of your doctor/physician's office?",
+        "id": "1475424216188",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424218286"
+    },
+    {
+        "text": "What's your claim number?",
+        "id": "1475424218291",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424219284"
+    },
+    {
+        "text": "What's the name of your insurance provider?",
+        "id": "1475424219289",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424220327"
+    },
+    {
+        "text": "What's your policy number?",
+        "id": "1475424220332",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424221323"
+    },
+    {
+        "text": "What illness are you seeking treatment for?",
+        "id": "1475424221329",
+        "type": "question"
+    },
+    {
+        "text": "1",
+        "id": "1475424223779"
+    },
+    {
+        "text": "Why was your procedure denied?",
+        "id": "1475424223784",
+        "type": "question"
+    },
+    {
+        "text": "experimental",
+        "id": "1475424234374"
+    },
+    {
+        "text": "Is the experimental treatment safer than non-experimental treatment?",
+        "id": "1475424234379",
+        "type": "question"
+    },
+    {
+        "text": "yes",
+        "id": "1475424237682"
+    },
+    {
+        "text": "Why do you believe you were denied your insurance claim?",
+        "id": "1475424237687",
+        "type": "question"
+    },
+    {
+        "text": "[Click here for your automatically generated report!](/results)",
+        "type": "question"
+    }
+]
