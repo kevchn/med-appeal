@@ -55,12 +55,15 @@ def comments_handler():
     answers_in_home, questions_experimental, answers_experimental
 
     if(reset):
+        one_off_time = str(int(time.time() * 1000))
+
         with open('comments.json', 'w') as f:
-            f.write('[ \
-                { \
-                    "type": "question", \
-                    "text": "Hi, what\'s your name?" \
-                }]')
+            f.write('[\n \
+{ "id": "' + one_off_time + '",\n \
+    "type": "question",\n \
+    "text": "Hi, what\'s your name?"\n \
+}\n \
+]')
             reset = False
 
     with open('comments.json', 'r') as f:
@@ -73,12 +76,12 @@ def comments_handler():
 
         count += 1
 
-        if(count < 8):
-            new_question = {'text': questions_basic[count], 'type': "question"}
+        if(count < 9):
+            new_question = {'id': str(int(time.time() * 1000)), 'text': questions_basic[count], 'type': "question"}
             history.append(new_question)
             answers_basic.append(new_answer)
 
-        if(count == 8):
+        if(count == 9):
             reason = new_answer
 
         with open('comments.json', 'w') as f:
