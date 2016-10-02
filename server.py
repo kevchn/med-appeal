@@ -20,18 +20,17 @@ app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 @app.route('/api/comments', methods=['GET', 'POST'])
 def comments_handler():
     with open('comments.json', 'r') as f:
-        comments = json.loads(f.read())
+        history = json.loads(f.read())
 
-    if request.method == 'POST':
-        new_comment = request.form.to_dict()
-        new_comment['id'] = int(time.time() * 1000)
-        comments.append(new_comment)
+    if request.method == 'POST':  # on submit
+        new_answer = request.form.to_dict()
+        history.append(new_answer)
 
         with open('comments.json', 'w') as f:
-            f.write(json.dumps(comments, indent=4, separators=(',', ': ')))
+            f.write(json.dumps(history, indent=4, separators=(',', ': ')))
 
     return Response(
-        json.dumps(comments),
+        json.dumps(history),
         mimetype='application/json',
         headers={
             'Cache-Control': 'no-cache',
