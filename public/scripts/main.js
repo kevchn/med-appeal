@@ -6,9 +6,17 @@ var Comment = React.createClass({
   },
 
   render: function() {
+    var wellStyle = {
+      width: '100%',
+      wordWrap: 'break-word',
+      padding: '5px',
+      minHeight: '5px',
+      marginBottom: '15px',
+    };
+    var spanStyle = {
+    }
     return (
-      <div className="well">
-        <span dangerouslySetInnerHTML={this.rawMarkup()} />
+      <div className="well" style={wellStyle} dangerouslySetInnerHTML={this.rawMarkup()}>
       </div>
     );
   }
@@ -59,7 +67,7 @@ var CommentBox = React.createClass({
   },
   render: function() {
     return (
-      <div className="container" height="50%">
+      <div className="container">
         <h1>Chat</h1>
         <CommentList data={this.state.data} />
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
@@ -77,9 +85,14 @@ var CommentList = React.createClass({
         </Comment>
       );
     });
+    var divStyle = {
+      minHeight: '300px',
+      maxHeight: '300px',
+      overflowY: "auto"
+    };
     return (
       <div className="panel panel-default">
-        <div className="pre-scrollable">
+        <div className="panel-body" style={divStyle}>
           {commentNodes}
         </div>
       </div>
