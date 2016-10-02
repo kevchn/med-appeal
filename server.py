@@ -80,6 +80,7 @@ def comments_handler():
     global reset
     global count
     global result_string
+    global reason
     global questions_basic, answers_basic, questions_lack_of_payment, \
     answers_lack_of_payment, questions_unnecessary, answers_unnecessary, \
     questions_out_of_network, answers_out_of_network, questions_in_home, \
@@ -100,9 +101,12 @@ def comments_handler():
         history = json.loads(f.read())
 
     if request.method == 'POST':  # on submit
-        reason = ""
+
         new_answer = request.form.to_dict()
         # new_answer['type'] = "answer"
+
+        print("\n\n\n" + str(count))
+        print(reason)
 
         if(count < 10):
             answers_basic.append(new_answer['text'])
@@ -121,6 +125,7 @@ def comments_handler():
             history.append(new_answer)
 
         result_string = ""
+
         today = date.today().isoformat()
 
         if(count >= 10):
@@ -180,19 +185,20 @@ def comments_handler():
                     history.append(new_question)
                 elif(count == 12):
                     answers_experimental.append(new_answer['text'])
-                    result_string = today + "<br> <br> \
+                    history.append(new_answer)
+                    result_string = today + "<p> \
 " + answers_basic[0] + "<br> \
 " + answers_basic[1] + "<br> \
 " + answers_basic[6] + "<br> \
 " + answers_basic[7] + "<br> <br>\
 Dear " + answers_basic[3] + ",<br> <br>\
-Please accept this letter as my appeal to " + answers_basic[6] + "'s decision to deny coverage for " + answers_generic[0] + ". The reason for the denial was due to the request of a new experimental treatment. Appealing this decision is a right guaranteed by the Patient Self-Determination Act.<br> \
-" + answers_generic[1] + " <br> \
-Upon receiving the explanation of benefits statement, I was notified by "+answers_basic[6] +" that the plan was denied it because proposed treatment was experimental. However,  my doctor, " +answers_basic[3]+ ", assured me the "+answers_generic[0]+" is a [safer/less expensive/previously authorized/lone treatment]. <br>"\
+Please accept this letter as my appeal to " + answers_basic[6] + "'s decision to deny coverage for " + answers_experimental[0] + ". The reason for the denial was due to the request of a new experimental treatment. Appealing this decision is a right guaranteed by the Patient Self-Determination Act.<br> \
+" + answers_experimental[1] + " <br> \
+Upon receiving the explanation of benefits statement, I was notified by "+answers_basic[6] +" that the plan was denied it because proposed treatment was experimental. However,  my doctor, " +answers_basic[3]+ ", assured me the "+answers_experimental[0]+" is a safer/less expensive treatment. <br>"\
 +"Please review this appeal and let me know if you need anything else to consider this request. I look forward to hearing from you directly as soon as possible. <br><br>" + \
 "Sincerely, <br> " \
  + answers_basic[0] + " <br> \
-" + answers_basic[2] + "."
+" + answers_basic[2] + "</p>"
                     history.append({
                     "text": "[Click here for your automatically generated report!](/results)",
                     "type": "question"
@@ -208,6 +214,7 @@ Upon receiving the explanation of benefits statement, I was notified by "+answer
                     history.append(new_question)
                 elif(count == 12):
                     answers_generic.append(new_answer['text'])
+                    history.append(new_answer)
                     result_string = today + "<p> \
 " + answers_basic[0] + "<br> \
 " + answers_basic[1] + "<br> \
