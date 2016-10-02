@@ -16,15 +16,70 @@ from flask import Flask, Response, request
 app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 
+reset = True
+count = 0
+questions_basic = [
+"Hi, what's your name?",
+# automatically generate date
+"What's your phone number?",
+"What's your physician's name?",
+"What's the address of your doctor/physician's office?",
+"What's your claim number?",
+"What's a name of a contact at your insurance company?",
+"What's the name of your insurance provider?",
+"What's your policy number?",
+"What ailment are you seeking treatment for?",
+""
+]
+answers_basic = []
+questions_lack_of_payment = []
+answers_lack_of_payment = []
+questions_unnecessary = []
+answers_unnecessary = []
+questions_out_of_network = []
+answers_out_of_network = []
+questions_in_home = []
+answers_in_home = []
+questions_experimental = []
+answers_experimental = []
+reason = ""
 
 @app.route('/api/comments', methods=['GET', 'POST'])
 def comments_handler():
+
+    global reset
+    global count
+    global questions_basic, answers_basic, questions_lack_of_payment, \
+    answers_lack_of_payment, questions_unnecessary, answers_unnecessary, \
+    questions_out_of_network, answers_out_of_network, questions_in_home, \
+    answers_in_home, questions_experimental, answers_experimental
+
+    if(reset):
+        with open('comments.json', 'w') as f:
+            f.write('[ \
+                { \
+                    "type": "question", \
+                    "text": "Hi, what\'s your name?" \
+                }]')
+            reset = False
+
     with open('comments.json', 'r') as f:
         history = json.loads(f.read())
 
     if request.method == 'POST':  # on submit
         new_answer = request.form.to_dict()
+        new_answer['type'] = "answer"
         history.append(new_answer)
+
+        count += 1
+
+        if(count < 8):
+            new_question = {'text': questions_basic[count], 'type': "question"}
+            history.append(new_question)
+            answers_basic.append(new_answer)
+
+        if(count == 8):
+            reason = new_answer
 
         with open('comments.json', 'w') as f:
             f.write(json.dumps(history, indent=4, separators=(',', ': ')))
