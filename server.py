@@ -105,7 +105,7 @@ def comments_handler():
         new_answer = request.form.to_dict()
         # new_answer['type'] = "answer"
 
-        print("\n\n\n" + str(count))
+        print("<br> \n\n" + str(count))
         print(reason)
 
         if(count < 10):
@@ -134,13 +134,30 @@ def comments_handler():
                 if(count == 10):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_lack_of_payment[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count < 12):
+                elif(count < 11):
                     answers_lack_of_payment.append(new_answer['text'])
                     history.append(new_answer)
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_lack_of_payment[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count == 12):
+                elif(count == 11):
                     answers_lack_of_payment.append(new_answer['text'])
+                    history.append(new_answer)
+                    result_string = today + "<p> \
+" + answers_basic[0] + "<br> \
+" + answers_basic[1] + "<br> \
+" + answers_basic[6] + "<br> \
+" + answers_basic[7] + "<br><br>\
+Dear " + answers_basic[3] + ",<br> <br>\
+Please accept this letter as my appeal to " + answers_basic[6] + "'s decision to deny coverage for " + answers_lack_of_payment[0] + ". The reason for the denial was due to lack of payments.  <br> \
+ <br> \
+While I understand your requirement that coverage is contingent upon timely payment of premiums, I ask that you grant an exception in this case. Should you require additional information, please do not hesitate to contact me at " + answers_basic[2] + ". I look forward to hearing from you in the near future. <br> <br> \
+Sincerely, <br> \
+" + answers_basic[0] + " <br> \
+" + answers_basic[2] + "</p>"
+                    history.append({
+                    "text": "[Click here for your automatically generated report!](/results)",
+                    "type": "question"
+                })
             elif "unnecessary" in reason:
                 if(count == 10):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_unnecessary[count-10], 'type': "question"}
@@ -191,13 +208,13 @@ def comments_handler():
 " + answers_basic[1] + "<br> \
 " + answers_basic[6] + "<br> \
 " + answers_basic[7] + "<br> <br>\
-Dear " + answers_basic[3] + ",<br> <br>\
-Please accept this letter as my appeal to " + answers_basic[6] + "'s decision to deny coverage for " + answers_experimental[0] + ". The reason for the denial was due to the request of a new experimental treatment. Appealing this decision is a right guaranteed by the Patient Self-Determination Act.<br> \
-" + answers_experimental[1] + " <br> \
-Upon receiving the explanation of benefits statement, I was notified by "+answers_basic[6] +" that the plan was denied it because proposed treatment was experimental. However,  my doctor, " +answers_basic[3]+ ", assured me the "+answers_experimental[0]+" is a safer/less expensive treatment. <br>"\
-+"Please review this appeal and let me know if you need anything else to consider this request. I look forward to hearing from you directly as soon as possible. <br><br>" + \
-"Sincerely, <br> " \
- + answers_basic[0] + " <br> \
+To whom it may concern, <br> <br>\
+Please accept this letter as my appeal to " + answers_basic[6] + "'s decision to deny coverage for experimental treatment. The reason for the denial was due to the request of a new experimental treatment. Appealing this decision is a right guaranteed by the Patient Self-Determination Act.<br> \
+ <br> \
+Upon receiving the explanation of benefits statement, I was notified by "+answers_basic[6] +" that the plan was denied it because proposed treatment was experimental. However,  my doctor, " +answers_basic[3]+ ", assured me that it was a safer/less expensive treatment. <br> \
+Please review this appeal and let me know if you need anything else to consider this request. I look forward to hearing from you directly as soon as possible. <br><br> \
+Sincerely, <br> " \
++ answers_basic[0] + " <br> \
 " + answers_basic[2] + "</p>"
                     history.append({
                     "text": "[Click here for your automatically generated report!](/results)",
@@ -224,7 +241,7 @@ Dear " + answers_basic[6] + ",<br><br> \
 Please accept this letter as my appeal to " + answers_basic[6] + "'s' decision to deny coverage for " + answers_generic[0] + ". It is my understanding that this procedure has been denied because: <br> \
 " +  answers_generic[1] + " <br> \
 As you know, I have been diagnosed with " + answers_basic[8] + ". Currently " + answers_basic[3] + " believes that I will significantly benefit from undergoing " + answers_generic[0] +". Please see the enclosed letter from " + answers_basic[3] + " for more details. <br> \
-Based on this information, I asking that you reconsider your previous decision and allow coverage for the desired " + answers_generic[0] + ". [The treatment is scheduled to begin on " + today + ".] Should you require additional information, please do not hesitate to contact me at " + answers_basic[2] + ".\nI look forward to hearing from you in the near future. <br><br> \
+Based on this information, I'm asking that you reconsider your previous decision and allow coverage for the desired " + answers_generic[0] + ". [The treatment is scheduled to begin on " + today + ".] Should you require additional information, please do not hesitate to contact me at " + answers_basic[2] + ".\nI look forward to hearing from you in the near future. <br><br> \
 Sincerely, <br> \
 " + answers_basic[0] + " <br> \
 " + answers_basic[2] + "</p>"
