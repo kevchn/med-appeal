@@ -1,0 +1,18 @@
+{
+  "name": "Kevin",
+  "homepage": "https://github.com/kevchn/robot_lawyer",
+  "authors": [
+    "Kevin Chen <kevchen98@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

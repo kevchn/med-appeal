@@ -19,17 +19,17 @@ app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 
 reset = True
-count = -1
-questions_basic = [
-"Hi, what's your name?",
-"And what's your address?",
-"What's your phone number?",
-"What's your physician's name?",
-"What's the address of your doctor/physician's office?",
-"What's your claim number?",
-"What's the name of your insurance provider?",
-"What's your policy number?",
-"What illness are you seeking treatment for?",
+count = 0
+questions_basic = [ # 9 questions, 0-8 indices
+"What's your name?", # 0
+"And what's your address?", # 1
+"What's your phone number?", # 2
+"What's your physician's name?", # 3
+"What's the address of your doctor/physician's office?", # 4
+"What's your claim number?", # 5
+"What's the name of your insurance provider?", # 6
+"What's your policy number?", # 7
+"What illness are you seeking treatment for?", # 8
 ]
 answers_basic = []
 
@@ -86,7 +86,10 @@ def comments_handler():
         one_off_time = str(int(time.time() * 1000))
 
         with open('comments.json', 'w') as f:
-            f.write('[]')
+            f.write('[{\
+                    "text": "Welcome to MedAppeal, the machine-learning AI that helps you write medical insurance appeal letters quickly and simply!",\
+                    "type": "question"\
+                }]')
             reset = False
 
     with open('comments.json', 'r') as f:
@@ -95,69 +98,82 @@ def comments_handler():
     if request.method == 'POST':  # on submit
         reason = ""
         new_answer = request.form.to_dict()
-        new_answer['type'] = "answer"
-        history.append(new_answer)
-
-        count += 1
+        # new_answer['type'] = "answer"
+        answers_basic.append(new_answer['text'])
 
         if(count < 9):
+            history.append(new_answer)
             new_question = {'id': str(int(time.time() * 1000)), 'text': questions_basic[count], 'type': "question"}
             history.append(new_question)
-            answers_basic.append(new_answer['text'])
-            print("\n\n\n" + str(count) + "\n" + str(len(answers_basic)) + "\n\n")
+
+#        print("\n" + '\n'.join(map(str, answers_basic)))
+#        print(str(count) + '\t' + questions_basic[count])
+
+        if(count == 0):
+            del answers_basic[0]
 
         if(count == 9):
+            history.append(new_answer)
             reason = new_answer['text']
 
         result_string = ""
         today = date.today().isoformat()
 
         if(count >= 9):
+            history.append(new_answer)
             # define the function blocks
             if "payment" in reason:
-                if(count < 12):
+                if(count < 11):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_lack_of_payment[count-9], 'type': "question"}
                     history.append(new_question)
                     answers_lack_of_payment.append(new_answer['text'])
             elif "unnecessary" in reason:
-                if(count < 15):
+                if(count < 14):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_unnecessary[count-9], 'type': "question"}
                     history.append(new_question)
                     answers_unnecessary.append(new_answer['text'])
             elif "network" in reason:  # outside network covered by doctors
-                if(count < 13):
+                if(count < 12):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_out_of_network[count-9], 'type': "question"}
                     history.append(new_question)
                     answers_out_of_network.append(new_answer['text'])
             elif "in home" in reason or "nursing" in reason:  #
-                if(count < 14):
+                if(count < 13):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_in_home[count-9], 'type': "question"}
                     history.append(new_question)
                     answers_in_home.append(new_answer['text'])
             elif "experimental" in reason:
-                if(count < 12):
+                if(count < 11):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_experimental[count-9], 'type': "question"}
                     history.append(new_question)
                     answers_experimental.append(new_answer['text'])
             else:
-                if(count < 12):
-                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_experimental[count-9], 'type': "question"}
+                if(count < 11):
+                    new_question = {'id': str(int(time.time() * 1000)), 'text': questions_generic[count-9], 'type': "question"}
                     history.append(new_question)
                     answers_generic.append(new_answer['text'])
-                result_string = today + " \
-" + answers_basic[0] + " \
-" + answers_basic[1] + " \
-" + answers_basic[6] + " \
-" + answers_basic[7] + " \
-Dear " + answers_basic[3] + ", \
-Please accept this letter as my appeal to " + answers_basic[6] + "'s' decision to deny coverage for " + answers_basic[8] + ". It is my understanding based that this procedure has been denied because: \
-" + answers_generic[1] + " \
-As you know, I have been diagnosed with " + answers_basic[0] + ". Currently " + answers_basic[3] + " believes that I will significantly benefit from " + answers_generic[0] +". Please see the enclosed letter from " + answers_basic[3] + " for more detail.]. \
-Based on this information, I asking that you reconsider your previous decision and allow coverage for the desired " + answers_generic[0] + ". [The treatment is scheduled to begin on " + today + ".] Should you require additional information, please do not hesitate to contact me at " + answers_basic[2] + ".  I look forward to hearing from you in the near future. \
-Sincerely, \
-" + answers_basic[0] + " \
+                else:
+                    print("\nSIZE" + str(len(answers_generic)))
+                    print(answers_generic[1]) # ERROR
+                    print(answers_basic[7])
+                    print(answers_basic[8])
+                    result_string = today + "\n\n\
+" + answers_basic[0] + "\n\
+" + answers_basic[1] + "\n\
+" + answers_basic[6] + "\n\
+" + answers_basic[7] + "\n\n\
+Dear " + answers_basic[3] + ",\n\n\
+Please accept this letter as my appeal to " + answers_basic[6] + "'s' decision to deny coverage for " + answers_generic[0] + ". It is my understanding based that this procedure has been denied because: \n\
+" + answers_generic[1] + " \n\
+As you know, I have been diagnosed with " + answers_basic[8] + ". Currently " + answers_basic[3] + " believes that I will significantly benefit from undergoing " + answers_generic[0] +". Please see the enclosed letter from " + answers_basic[3] + " for more details. \n\
+Based on this information, I asking that you reconsider your previous decision and allow coverage for the desired " + answers_generic[0] + ". [The treatment is scheduled to begin on " + today + ".] Should you require additional information, please do not hesitate to contact me at " + answers_basic[2] + ".\nI look forward to hearing from you in the near future. \n\n\
+Sincerely, \n\
+" + answers_basic[0] + " \n\
 " + answers_basic[2] + "."
-                return render_template('results.html', result_string)
+                    print("\n" + result_string)
+                    return render_template('results.html')
+
+        count += 1
 
         with open('comments.json', 'w') as f:
             f.write(json.dumps(history, indent=4, separators=(',', ': ')))
@@ -171,6 +187,7 @@ Sincerely, \
         }
     )
 
-
 if __name__ == '__main__':
-    app.run(port=int(os.environ.get("PORT", 3000)), debug=True)
+     app.debug = True
+     port = int(os.environ.get("PORT", 5000))
+     app.run(host='0.0.0.0', port=port)
