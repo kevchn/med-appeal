@@ -1,15 +1,3 @@
-/**
- * This file provided by Facebook is for non-commercial testing and evaluation
- * purposes only. Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 var Comment = React.createClass({
   rawMarkup: function() {
     var md = new Remarkable();
@@ -19,7 +7,7 @@ var Comment = React.createClass({
 
   render: function() {
     return (
-      <div className="comment">
+      <div className="well">
         <span dangerouslySetInnerHTML={this.rawMarkup()} />
       </div>
     );
@@ -71,8 +59,8 @@ var CommentBox = React.createClass({
   },
   render: function() {
     return (
-      <div className="commentBox">
-        <h1>Comments</h1>
+      <div className="container" height="50%">
+        <h1>Chat</h1>
         <CommentList data={this.state.data} />
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>
@@ -90,8 +78,10 @@ var CommentList = React.createClass({
       );
     });
     return (
-      <div className="commentList">
-        {commentNodes}
+      <div className="panel panel-default">
+        <div className="pre-scrollable">
+          {commentNodes}
+        </div>
       </div>
     );
   }
@@ -115,14 +105,17 @@ var CommentForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
+      <form className="input-group" onSubmit={this.handleSubmit}>
         <input
           type="text"
+          className="form-control"
           placeholder="Say something..."
           value={this.state.text}
           onChange={this.handleTextChange}
         />
-        <input type="submit" value="Post" />
+        <span className="input-group-btn">
+          <input type="submit" value="Reply" className="btn btn-default" />
+        </span>
       </form>
     );
   }
