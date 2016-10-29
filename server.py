@@ -18,7 +18,7 @@ from flask import Flask, Response, request, render_template
 app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 
-result_string = "Error"
+result_string = ""
 reset = True
 count = 0
 questions_basic = [ # 9 questions, 0-8 indices
@@ -124,8 +124,6 @@ def comments_handler():
             reason = new_answer['text']
             history.append(new_answer)
 
-        result_string = ""
-
         today = date.today().isoformat()
 
         if(count >= 10):
@@ -220,7 +218,10 @@ Sincerely, <br> " \
                     "text": "[Click here for your automatically generated report!](/results)",
                     "type": "question"
                 })
-            else:
+            else: # general case
+                print("General Case")
+                print(count)
+                print(result_string)
                 if(count == 10):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_generic[count-10], 'type': "question"}
                     history.append(new_question)
@@ -230,6 +231,7 @@ Sincerely, <br> " \
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_generic[count-10], 'type': "question"}
                     history.append(new_question)
                 elif(count == 12):
+                    print("count 12 reached")
                     answers_generic.append(new_answer['text'])
                     history.append(new_answer)
                     result_string = today + "<p> \
@@ -245,6 +247,7 @@ Based on this information, I'm asking that you reconsider your previous decision
 Sincerely, <br> \
 " + answers_basic[0] + " <br> \
 " + answers_basic[2] + "</p>"
+                    print(result_string)
                     history.append({
                     "text": "[Click here for your automatically generated report!](/results)",
                     "type": "question"
