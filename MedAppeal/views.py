@@ -15,8 +15,8 @@ import os
 import time
 from datetime import date
 from flask import Flask, Response, request, render_template
+from MedAppeal import app
 
-app = Flask(__name__)
 #app = Flask(__name__, static_url_path='', static_folder='public')
 #app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 
