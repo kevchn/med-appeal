@@ -16,8 +16,13 @@ import time
 from datetime import date
 from flask import Flask, Response, request, render_template
 
-app = Flask(__name__, static_url_path='', static_folder='public')
-app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
+app = Flask(__name__)
+#app = Flask(__name__, static_url_path='', static_folder='public')
+#app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template('index.html')
 
 result_string = ""
 reset = True
@@ -77,7 +82,6 @@ reason = ""
 
 @app.route('/api/comments', methods=['GET', 'POST'])
 def comments_handler():
-
     global reset
     global count
     global result_string
@@ -264,10 +268,10 @@ Sincerely, <br> \
     )
 
 @app.route('/results')
-def index():
+def res():
     return render_template('results.html', results = result_string)
 
 if __name__ == '__main__':
      app.debug = True
-     port = int(os.environ.get("PORT", 5001))
+     port = int(os.environ.get("PORT", 5000))
      app.run(host='0.0.0.0', port=port)
