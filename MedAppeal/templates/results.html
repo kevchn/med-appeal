@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- If you delete this meta tag, Half Life 3 will never be released. -->
+<meta name="viewport" content="width=device-width" />
+
+<!-- HEADER -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>MedAppeal | Results</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://unpkg.com/react@15.3.0/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15.3.0/dist/react-dom.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<!-- <script src="https://unpkg.com/jquery@3.1.0/dist/jquery.min.js"></script> -->
+<script src="https://unpkg.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+
+<!-- BODY -->
+<body bgcolor="#FFFFFF">
+	<div class="container">
+		<h3>MedAppeal Generated Letter</h3>
+
+		<div id="content">
+		{{results|safe}}
+		</div>
+	</div>
+
+	<!-- FOOTER -->
+	<footer class="footer" style = "position: absolute; bottom: 0; width: 100%; height: 60px; background-color: #34495e;">
+		<div class="container">
+			<p class="text-muted" style = "margin: 20px 0;"><a style="color:white" href="https://devpost.com/software/medappeal">Check out our Devpost</a></p>
+		</div>
+	</footer>
+
+</body>
+</html>

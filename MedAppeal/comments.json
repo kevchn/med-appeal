@@ -1,0 +1,15 @@
+[
+    {
+        "text": "Welcome to MedAppeal, the machine-learning AI that helps you write medical insurance appeal letters quickly and simply!",
+        "type": "question"
+    },
+    {
+        "text": "asd",
+        "id": "1477818245921"
+    },
+    {
+        "text": "What's your name?",
+        "type": "question",
+        "id": "1477818245941"
+    }
+]

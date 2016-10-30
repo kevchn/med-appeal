@@ -24,20 +24,22 @@ var Comment = React.createClass({
 },
 
   render: function() {
-    var sideColor = '#ffffff';
     var className = 'well';
+    var sideColor = '#485DC3';
+    var textColor = '#ffffff';
     if(this.props.type == "question"){
-      sideColor = '#d5eef6';
-      className = 'well';
+      sideColor = '#f7f7f7';
+      textColor = '#000000';
     }
     var wellStyle = {
       width: '100%',
       wordWrap: 'break-word',
       padding: '5px',
-      minHeight: '5px',
       marginBottom: '15px',
+      color: textColor,
       backgroundColor: sideColor,
-      fontSize: '20px'
+      fontFamily: 'Open Sans',
+      fontSize: '1em'
     };
     return (
       <div className={className} style={wellStyle} dangerouslySetInnerHTML={this.rawMarkup()}>

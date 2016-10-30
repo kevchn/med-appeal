@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # This file provided by Facebook is for non-commercial testing and evaluation
 # purposes only. Facebook reserves all rights not expressly granted.
@@ -268,5 +269,5 @@ def index():
 
 if __name__ == '__main__':
      app.debug = True
-     port = int(os.environ.get("PORT", 5000))
+     port = int(os.environ.get("PORT", 5001))
      app.run(host='0.0.0.0', port=port)
