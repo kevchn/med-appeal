@@ -42,7 +42,7 @@ answers_lack_of_payment = []
 
 questions_unnecessary = [
 "Do you have a doctor’s recommendation for this treatment?",
-"Why did your doctor deem the treatment necessary?",
+"Why did your doctor deem the treatment necessary?"
 ]
 answers_unnecessary = []
 
@@ -146,7 +146,7 @@ def comments_handler():
 " + answers_basic[6] + "<br> \
 " + answers_basic[7] + "<br><br>\
 Dear " + answers_basic[3] + ",<br> <br>\
-Please accept this letter as my appeal to " + answers_basic[6] + "'s decision to deny coverage for " + answers_lack_of_payment[0] + ". The reason for the denial was due to lack of payments.  <br> \
+Please accept this letter as my appeal to " + answers_basic[6] + "'s decision to deny coverage, because " + answers_lack_of_payment[0] + ". The reason for the denial was due to lack of payments.  <br> \
  <br> \
 While I understand your requirement that coverage is contingent upon timely payment of premiums, I ask that you grant an exception in this case. Should you require additional information, please do not hesitate to contact me at " + answers_basic[2] + ". I look forward to hearing from you in the near future. <br> <br> \
 Sincerely, <br> \
@@ -160,45 +160,45 @@ Sincerely, <br> \
                 if(count == 10):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_unnecessary[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count < 15):
+                elif(count < 12):
                     answers_unnecessary.append(new_answer['text'])
                     history.append(new_answer)
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_unnecessary[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count == 15):
+                elif(count == 12):
                     answers_unnecessary.append(new_answer['text'])
             elif "network" in reason:  # outside network covered by doctors
                 if(count == 10):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_out_of_network[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count < 13):
+                elif(count < 14):
                     answers_out_of_network.append(new_answer['text'])
                     history.append(new_answer)
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_out_of_network[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count == 13):
+                elif(count == 14):
                     answers_out_of_network.append(new_answer['text'])
             elif "in home" in reason or "nursing" in reason:  #
                 if(count == 10):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_in_home[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count < 14):
+                elif(count < 11):
                     answers_in_home.append(new_answer['text'])
                     history.append(new_answer)
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_in_home[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count == 14):
+                elif(count == 11):
                     answers_in_home.append(new_answer['text'])
             elif "experimental" in reason:
                 if(count == 10):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_experimental[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count < 12):
+                elif(count < 13):
                     answers_experimental.append(new_answer['text'])
                     history.append(new_answer)
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_experimental[count-10], 'type': "question"}
                     history.append(new_question)
-                elif(count == 12):
+                elif(count == 13):
                     answers_experimental.append(new_answer['text'])
                     history.append(new_answer)
                     result_string = today + "<p> \
@@ -219,9 +219,6 @@ Sincerely, <br> " \
                     "type": "question"
                 })
             else: # general case
-                print("General Case")
-                print(count)
-                print(result_string)
                 if(count == 10):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_generic[count-10], 'type': "question"}
                     history.append(new_question)
@@ -231,7 +228,6 @@ Sincerely, <br> " \
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_generic[count-10], 'type': "question"}
                     history.append(new_question)
                 elif(count == 12):
-                    print("count 12 reached")
                     answers_generic.append(new_answer['text'])
                     history.append(new_answer)
                     result_string = today + "<p> \
@@ -247,7 +243,6 @@ Based on this information, I'm asking that you reconsider your previous decision
 Sincerely, <br> \
 " + answers_basic[0] + " <br> \
 " + answers_basic[2] + "</p>"
-                    print(result_string)
                     history.append({
                     "text": "[Click here for your automatically generated report!](/results)",
                     "type": "question"
