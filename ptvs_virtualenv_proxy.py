@@ -1,6 +1,4 @@
- # ############################################################################
- #
- # Copyright (c) Microsoft Corporation. 
+# Copyright (c) Microsoft Corporation. 
  #
  # This source code is subject to terms and conditions of the Apache License, Version 2.0. A 
  # copy of the license can be found in the License.html file at the root of this distribution. If 
@@ -115,4 +113,4 @@ def get_venv_handler():
     log('Getting handler %s\n' % os.getenv('WSGI_ALT_VIRTUALENV_HANDLER'))
     handler = get_wsgi_handler(os.getenv('WSGI_ALT_VIRTUALENV_HANDLER'))
     log('Got handler: %r\n' % handler)
-    return handler
+return handler
