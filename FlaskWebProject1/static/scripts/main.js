@@ -131,8 +131,8 @@ componentDidUpdate: function() {
     var divStyle = {
       // minHeight: '80%',
       // maxHeight: '80%',
-      minHeight: '400px',
-      maxHeight: '400px',
+      minHeight: '300px',
+      maxHeight: '300px',
       overflowY: "auto"
     };
     return (
