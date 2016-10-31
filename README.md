@@ -1,7 +1,7 @@
-# Motivation
+# Flask for Azure Web Apps [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
-Medical insurance providers often deny claims. 95% of their customers do not appeal. Of those who do, 61% lose. We developed an app that procedurally generates medical appeal letters based on a set of answers recieved from a quick chat with our simple AI.
+Flask is a microframework for Python based on Werkzeug, Jinja 2 and good intentions. And before you ask: It's [BSD licensed](http://flask.pocoo.org/docs/license/).
 
-# Technologies
+[Read the documentation or download as PDF](http://flask.pocoo.org/docs/0.10/)
 
-Built with Python (Flask), Javascript (React), and Bootstrap.
+

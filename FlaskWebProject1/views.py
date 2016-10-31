@@ -11,22 +11,22 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import json
-import os
+import os, glob
 import time
 from datetime import date
 from flask import Flask, Response, request, render_template
-from MedAppeal import app
+from FlaskWebProject1 import app
 
 #app = Flask(__name__, static_url_path='', static_folder='public')
 #app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    return render_template('index.html')
-
 result_string = ""
 reset = True
 count = 0
+reason = ""
+
+print("First load")
+
 questions_basic = [ # 9 questions, 0-8 indices
 "What's your name?", # 0
 "And what's your address?", # 1
@@ -78,10 +78,19 @@ questions_generic = [
 ]
 answers_generic = []
 
-reason = ""
+@app.route('/')
+@app.route('/home')
+def index():
+    with open('comments.json', 'w+') as f:
+        f.write('[{\
+                "text": "Welcome to MedAppeal, the machine-learning AI that helps you write medical insurance appeal letters quickly and simply!",\
+                "type": "question"\
+            }]')
 
-@app.route('/api/comments', methods=['GET', 'POST'])
-def comments_handler():
+    return render_template('index.html')
+
+@app.route('/messages', methods=['GET','POST'])
+def message():
     global reset
     global count
     global result_string
@@ -92,16 +101,6 @@ def comments_handler():
     answers_in_home, questions_experimental, answers_experimental, \
     questions_generic, answers_generic
 
-    if(reset):
-        one_off_time = str(int(time.time() * 1000))
-
-        with open('comments.json', 'w') as f:
-            f.write('[{\
-                    "text": "Welcome to MedAppeal, the machine-learning AI that helps you write medical insurance appeal letters quickly and simply!",\
-                    "type": "question"\
-                }]')
-            reset = False
-
     with open('comments.json', 'r') as f:
         history = json.loads(f.read())
 
@@ -109,9 +108,6 @@ def comments_handler():
 
         new_answer = request.form.to_dict()
         # new_answer['type'] = "answer"
-
-        print("<br> \n\n" + str(count))
-        print(reason)
 
         if(count < 10):
             answers_basic.append(new_answer['text'])
@@ -270,4 +266,3 @@ Sincerely, <br> \
 @app.route('/results')
 def res():
     return render_template('results.html', results = result_string)
-
