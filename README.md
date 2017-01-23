@@ -1,7 +1,7 @@
 # MedAppeal 
 This is an insurance appeal letter generation chat-bot AI powered by Python (Flask) and ReactJS.
 
-![Homepage Preview](https://shrinktheweb.snapito.io/v2/webshot/spu-ea68c8-ogi2-3cwn3bmfojjlb56e?size=800x0&screen=1024x768&url=http%3A%2F%2Fmedappeal.azurewebsites.net%2F)
+![Homepage Preview](http://i3.imgbus.com/doimg/7com5mon16f3ca5.png)
 
 
 ## Demo

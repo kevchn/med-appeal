@@ -1,31 +1,16 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-# This file provided by Facebook is for non-commercial testing and evaluation
-# purposes only. Facebook reserves all rights not expressly granted.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-# FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-# ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import json
 import os, glob
 import time
 from datetime import date
 from flask import Flask, Response, request, render_template
-from FlaskWebProject1 import app
-
-#app = Flask(__name__, static_url_path='', static_folder='public')
-#app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
+from project import app
 
 result_string = ""
 reset = True
 count = 0
 reason = ""
-
-print("First load")
 
 questions_basic = [ # 9 questions, 0-8 indices
 "What's your name?", # 0
@@ -107,7 +92,6 @@ def message():
     if request.method == 'POST':  # on submit
 
         new_answer = request.form.to_dict()
-        # new_answer['type'] = "answer"
 
         if(count < 10):
             answers_basic.append(new_answer['text'])
@@ -115,8 +99,6 @@ def message():
             new_question = {'id': str(int(time.time() * 1000)), 'text': questions_basic[count], 'type': "question"}
             history.append(new_question)
 
-#        print("\n" + '\n'.join(map(str, answers_basic)))
-#        print(str(count) + '\t' + questions_basic[count])
 
         if(count == 0):
             del answers_basic[0]
@@ -128,7 +110,6 @@ def message():
         today = date.today().isoformat()
 
         if(count >= 10):
-            # define the function blocks
             if "payment" in reason:
                 if(count == 10):
                     new_question = {'id': str(int(time.time() * 1000)), 'text': questions_lack_of_payment[count-10], 'type': "question"}
