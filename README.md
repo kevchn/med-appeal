@@ -1,5 +1,5 @@
 # MedAppeal 
-This is an insurance appeal letter generation chat-bot AI powered by Python (Flask) and ReactJS.
+This is an insurance appeal letter generation chat-bot AI powered by Python (Flask) and ReactJS. Developers beware: the code in this repository is of an **astoundingly poor quality**.
 
 ![Homepage Preview](http://i3.imgbus.com/doimg/7com5mon16f3ca5.png)
 
